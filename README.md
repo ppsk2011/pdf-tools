@@ -197,6 +197,7 @@ Detailed step-by-step guides live in the [`docs/`](./docs/) folder:
 |---|---|
 | 📖 [Web + Domain Hosting](./docs/deployment/web.md) | Vercel, Netlify, VPS (DigitalOcean/Hetzner), AWS, Google Cloud Run |
 | 🌐 [Domain & DNS Setup](./docs/deployment/domain-setup.md) | Register a domain, DNS records, nginx reverse proxy, Let's Encrypt SSL, Cloudflare |
+| 🇨🇦 [GoDaddy — pdf-tools.techscript.ca](./docs/deployment/godaddy-techscript.md) | Step-by-step: GoDaddy DNS record, VPS setup, Docker Compose, nginx + SSL |
 | 🍎 [iOS App (App Store)](./docs/deployment/ios.md) | Capacitor + Xcode + App Store Connect, TestFlight, OTA updates |
 | 🤖 [Android App (Google Play)](./docs/deployment/android.md) | Capacitor + Android Studio + Play Console, signed AAB, GitHub Actions CI |
 
