@@ -1,0 +1,30 @@
+version: '3.9'
+
+# Production override for pdf-tools.techscript.ca
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+#
+# NOTE: Ports 3000 and 3001 are still bound to the host (from docker-compose.yml).
+# Use a firewall to restrict direct external access; all public traffic should go
+# through nginx on ports 80/443:
+#   ufw allow 80/tcp
+#   ufw allow 443/tcp
+#   ufw allow 22/tcp
+#   ufw deny 3000/tcp
+#   ufw deny 3001/tcp
+#   ufw deny 6379/tcp
+#   ufw enable
+
+services:
+  backend:
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - FRONTEND_URL=https://pdf-tools.techscript.ca
+      - REDIS_URL=redis://redis:6379
+      - FILE_TTL_MS=1800000
+      - MAX_FILE_SIZE=104857600
+
+  frontend:
+    build:
+      args:
+        - VITE_API_URL=https://pdf-tools.techscript.ca/api
