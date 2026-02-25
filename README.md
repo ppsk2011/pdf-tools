@@ -191,30 +191,97 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 
 ## Deployment
 
-### Frontend — Vercel / Netlify
+Detailed step-by-step guides live in the [`docs/`](./docs/) folder:
+
+| Guide | What it covers |
+|---|---|
+| 📖 [Web + Domain Hosting](./docs/deployment/web.md) | Vercel, Netlify, VPS (DigitalOcean/Hetzner), AWS, Google Cloud Run |
+| 🌐 [Domain & DNS Setup](./docs/deployment/domain-setup.md) | Register a domain, DNS records, nginx reverse proxy, Let's Encrypt SSL, Cloudflare |
+| 🍎 [iOS App (App Store)](./docs/deployment/ios.md) | Capacitor + Xcode + App Store Connect, TestFlight, OTA updates |
+| 🤖 [Android App (Google Play)](./docs/deployment/android.md) | Capacitor + Android Studio + Play Console, signed AAB, GitHub Actions CI |
+
+---
+
+### 5-Minute Quick Start (Web)
 
 ```bash
-# Build
-cd frontend && npm run build
+# 1. Configure backend environment
+cp backend/.env.example backend/.env
+#    → set NODE_ENV=production, FRONTEND_URL, STRIPE_*, REDIS_URL
 
-# Set env var
-VITE_API_URL=https://api.yourpdftools.com
+# 2. Build and launch everything
+docker compose up --build -d
+
+# Frontend → http://localhost:3000
+# Backend  → http://localhost:3001
+# Health   → http://localhost:3001/health
 ```
 
-### Backend — Docker on any cloud
+---
 
-```dockerfile
-# Already included in backend/Dockerfile
-docker build -t pdftools-api ./backend
-docker run -p 3001:3001 --env-file .env pdftools-api
+### Deploy to a Custom Domain (VPS)
+
+```bash
+# On your Ubuntu VPS
+git clone https://github.com/ppsk2011/pdf-tools.git && cd pdf-tools
+cp backend/.env.example backend/.env && nano backend/.env
+docker compose up --build -d
+
+# Add nginx + Let's Encrypt SSL
+apt install -y nginx certbot python3-certbot-nginx
+certbot --nginx -d yourdomain.com -d api.yourdomain.com
 ```
+
+→ Full nginx config and domain setup: [docs/deployment/domain-setup.md](./docs/deployment/domain-setup.md)
+
+---
+
+### Deploy as iOS or Android App
+
+The React frontend wraps into a native app via **Capacitor** — no code rewrite needed.
+
+```bash
+# 1. Install Capacitor
+npm install @capacitor/core @capacitor/cli @capacitor/ios @capacitor/android
+
+# 2. Build the frontend
+cd frontend && VITE_API_URL=https://api.yourdomain.com npm run build && cd ..
+
+# 3. Add platforms
+npx cap add ios      # creates ios/ Xcode project
+npx cap add android  # creates android/ Gradle project
+
+# 4. Sync web assets into native projects
+npx cap sync
+
+# 5. Open in IDE
+npx cap open ios      # → Xcode
+npx cap open android  # → Android Studio
+```
+
+→ Detailed iOS guide (signing, App Store): [docs/deployment/ios.md](./docs/deployment/ios.md)  
+→ Detailed Android guide (Play Store, signed AAB): [docs/deployment/android.md](./docs/deployment/android.md)
+
+---
+
+### PWA — Install on Any Device Without an App Store
+
+The frontend is a **Progressive Web App**. Users can install it directly from the browser:
+
+- **iPhone/iPad**: Safari → Share button → "Add to Home Screen"
+- **Android**: Chrome → ⋮ menu → "Add to Home Screen" / "Install app"
+- **Desktop**: Chrome/Edge → install icon in the address bar
+
+No App Store account needed for PWA distribution.
+
+---
 
 ### Scaling Strategy
 
-- **Horizontal**: Run multiple backend containers behind a load balancer (nginx / AWS ALB). Bull queue workers can run as separate pods.
-- **Redis**: Use AWS ElastiCache or Redis Cloud for managed Redis.
-- **CDN**: Serve the frontend from a CDN (Cloudfront / Fastly) to offload static asset traffic.
-- **Cost**: Use spot/preemptible instances for worker nodes; scale-to-zero when idle.
+- **Horizontal**: Run multiple backend containers behind an AWS ALB / nginx upstream. Bull queue workers scale independently.
+- **Redis**: Use AWS ElastiCache or [Upstash](https://upstash.com) for managed, serverless Redis.
+- **CDN**: Serve the frontend from Cloudfront / Cloudflare to eliminate origin load.
+- **Cost floor**: ~$6–8/mo (single Hetzner VPS + Vercel free tier + free Redis).
 
 ---
 
