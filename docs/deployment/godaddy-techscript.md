@@ -5,7 +5,67 @@ This guide walks through every step needed to put PDFTools live at
 
 ---
 
-## Table of Contents
+## ⚡ Quick Fix — GitHub Pages Custom Domain (GoDaddy CNAME)
+
+> **Use this section if your site is hosted on GitHub Pages** (the default for
+> this repo). The rest of the document describes a self-hosted VPS deployment.
+
+### What GitHub Pages needs
+
+GitHub Pages serves subdomains via a **CNAME** record, not an A record.
+
+### Step 1 — Add a CNAME record in GoDaddy
+
+1. Log in to [godaddy.com](https://godaddy.com) → **My Products**.
+2. Find **techscript.ca** → click **DNS** (or "Manage DNS").
+3. Click **Add New Record** (or edit an existing `pdf-tools` record if one already exists).
+4. Fill in the form **exactly** as shown:
+
+   | Field | Value |
+   |---|---|
+   | **Type** | `CNAME` |
+   | **Name** | `pdf-tools` |
+   | **Value** | `ppsk2011.github.io` |
+   | **TTL** | `600` seconds (10 min) |
+
+5. Click **Save**.
+
+> **Important**: Delete any existing `A` or `AAAA` record for `pdf-tools`
+> before (or instead of) adding the CNAME, as conflicting record types will
+> cause the DNS check to fail.
+
+### Step 2 — Verify the CNAME file exists in the repository
+
+The repository root must contain a file named `CNAME` with exactly this content:
+
+```
+pdf-tools.techscript.ca
+```
+
+This file already exists in the repo at `/CNAME`. GitHub Pages reads it to
+confirm the custom domain and complete the DNS verification.
+
+### Step 3 — Re-trigger the GitHub Pages DNS check
+
+1. Go to the repository **Settings → Pages**.
+2. Under **Custom domain**, the field should already show `pdf-tools.techscript.ca`.
+3. Click **Save** (even if nothing changed) — this re-runs the DNS check.
+4. Wait up to **10–30 minutes** for DNS to propagate, then refresh the page.
+5. Once the check passes, optionally enable **Enforce HTTPS**.
+
+### DNS propagation check
+
+```bash
+# From any terminal — should return "ppsk2011.github.io" once propagated
+dig pdf-tools.techscript.ca CNAME +short
+
+# Online checker
+# https://www.whatsmydns.net/#CNAME/pdf-tools.techscript.ca
+```
+
+---
+
+## Table of Contents (Self-Hosted VPS Deployment)
 
 1. [Prerequisites](#1-prerequisites)
 2. [GoDaddy DNS — add the subdomain record](#2-godaddy-dns--add-the-subdomain-record)
