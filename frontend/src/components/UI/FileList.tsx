@@ -40,7 +40,7 @@ export function FileList({ files, onRemove, onMoveUp, onMoveDown, reorderable = 
               <button
                 onClick={() => onMoveUp?.(index)}
                 disabled={index === 0}
-                className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 transition-colors"
+                className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 transition-colors touch-manipulation min-w-[36px] min-h-[36px] flex items-center justify-center"
                 aria-label="Move up"
               >
                 <ArrowUp className="w-4 h-4 text-slate-500" />
@@ -48,7 +48,7 @@ export function FileList({ files, onRemove, onMoveUp, onMoveDown, reorderable = 
               <button
                 onClick={() => onMoveDown?.(index)}
                 disabled={index === files.length - 1}
-                className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 transition-colors"
+                className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 transition-colors touch-manipulation min-w-[36px] min-h-[36px] flex items-center justify-center"
                 aria-label="Move down"
               >
                 <ArrowDown className="w-4 h-4 text-slate-500" />
@@ -57,7 +57,7 @@ export function FileList({ files, onRemove, onMoveUp, onMoveDown, reorderable = 
           )}
           <button
             onClick={() => onRemove(file.id)}
-            className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950 text-slate-400 hover:text-red-500 transition-colors"
+            className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950 text-slate-400 hover:text-red-500 transition-colors touch-manipulation min-w-[36px] min-h-[36px] flex items-center justify-center"
             aria-label={`Remove ${file.name}`}
           >
             <X className="w-4 h-4" />

@@ -29,7 +29,7 @@ export function DonationModal({ onClose }: DonationModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+            className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors touch-manipulation"
             aria-label="Close donation modal"
           >
             <X className="w-5 h-5 text-slate-500" />

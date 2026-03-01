@@ -74,22 +74,22 @@ export function HomePage() {
   return (
     <main>
       {/* Hero */}
-      <section className="relative bg-gradient-to-b from-red-50 to-white dark:from-slate-800 dark:to-slate-900 py-20 px-4">
+      <section className="relative bg-gradient-to-b from-red-50 to-white dark:from-slate-800 dark:to-slate-900 py-12 sm:py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium px-3 py-1.5 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium px-3 py-1.5 rounded-full mb-5">
             <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
             100% Free · No sign-up required
           </div>
-          <h1 className="text-5xl sm:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-4 sm:mb-6 leading-tight">
             Free PDF Tools<br />
             <span className="text-red-500">Online</span>
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-400 mb-6 sm:mb-8 max-w-2xl mx-auto">
             Merge, split, compress, convert, and edit PDF files with ease. 
             No registration. No watermarks. Files deleted after 30 minutes.
           </p>
           <Link to="/merge">
-            <Button size="lg">Get Started Free →</Button>
+            <Button size="lg" className="w-full sm:w-auto">Get Started Free →</Button>
           </Link>
         </div>
       </section>

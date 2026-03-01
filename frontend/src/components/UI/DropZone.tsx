@@ -17,8 +17,8 @@ export function DropZone({
   accept = { 'application/pdf': ['.pdf'] },
   multiple = true,
   maxSize = 50 * 1024 * 1024,
-  label = 'Drop PDF files here',
-  description = 'or click to browse',
+  label = 'Tap to select or drop PDF files',
+  description = 'Drag and drop or tap to browse your files',
 }: DropZoneProps) {
   const onDrop = useCallback((accepted: File[]) => {
     onFilesAdded(accepted);
@@ -35,7 +35,7 @@ export function DropZone({
     <div
       {...getRootProps()}
       className={clsx(
-        'flex flex-col items-center justify-center w-full min-h-[200px] border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-200 p-8',
+        'flex flex-col items-center justify-center w-full min-h-[160px] sm:min-h-[200px] border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-200 p-5 sm:p-8',
         isDragActive && !isDragReject && 'border-red-500 bg-red-50 dark:bg-red-950',
         isDragReject && 'border-red-600 bg-red-100 dark:bg-red-900',
         !isDragActive && 'border-slate-300 dark:border-slate-600 hover:border-red-400 hover:bg-slate-50 dark:hover:bg-slate-800 bg-slate-50 dark:bg-slate-800/50'
@@ -46,12 +46,12 @@ export function DropZone({
       <input {...getInputProps()} aria-label="File upload input" />
       <div className="flex flex-col items-center gap-3 text-center">
         {isDragActive ? (
-          <FileText className="w-12 h-12 text-red-500 animate-bounce" />
+          <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-red-500 animate-bounce" />
         ) : (
-          <Upload className="w-12 h-12 text-slate-400 dark:text-slate-500" />
+          <Upload className="w-10 h-10 sm:w-12 sm:h-12 text-slate-400 dark:text-slate-500" />
         )}
         <div>
-          <p className="text-lg font-semibold text-slate-700 dark:text-slate-300">
+          <p className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300">
             {isDragActive ? 'Drop files here' : label}
           </p>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
